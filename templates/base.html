@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>{% block title %} {% endblock title %}</title>
+    <style>
+        .bg-purple {
+            background-color: darkblue;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* This ensures the content stretches to at least the full height of the viewport */
+        }
+
+        .content {
+            flex: 1; /* This allows the content to expand and push the footer down */
+        }
+
+        footer {
+            background-color: darkblue;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="content p-2">
+        <header>
+            <!-- Navigation Bar -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="https://www.ubtuit.uz/img/tuit_logo.png" width="30" height="30" class="d-inline-block align-top" alt="Your Logo">
+                    UBTUIT
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {% block nav_home %}{% endblock nav_home %}" href="{% url 'home' %}">Asosiy sahifa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% block nav_about %}{% endblock nav_about %}" href="{% url 'about' %}">Haqida</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% block nav_contact %}{% endblock nav_contact %}" href="{% url 'contact' %}">Aloqa</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Jumbotron Section -->
+            <div class="jumbotron text-center">
+                <h1 class="display-4">{% block jumbotron_title %}{% endblock jumbotron_title %}</h1>
+                <p class="lead">{% block jumbotron_description %}{% endblock jumbotron_description %}</p>
+            </div>
+        </header>
+        <main>
+            {% if messages %}
+                <div class="container mt-5">
+                    {% for message in messages %}
+                        <div class="alert alert-success" role="alert" id="success-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <script>
+                    // Wait for 5 seconds and then hide the success message
+                    setTimeout(function() {
+                        var successMessage = document.getElementById('success-message');
+                        if (successMessage) {
+                            successMessage.style.display = 'none';
+                        }
+                    }, 5000);
+                </script>
+            {% endif %}
+
+            {% block content %}
+            {% endblock content %}
+        </main>
+    </div>
+    <!-- Footer Section -->
+    <footer class="bg-purple text-light text-center py-3">
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Your Website Name. All rights reserved.</p>
+        </div>
+
+        <!-- JavaScript to update the current year -->
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        </script>
+    </footer>
+    <!-- Bootstrap JS and jQuery (required for Bootstrap components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

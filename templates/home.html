@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block jumbotron_title %}
+Bizning sahifamizga hush kelibsiz
+{% endblock jumbotron_title %}
+
+{% block jumbotron_description %}
+Ushbu sahifada siz <span>Muhammad al-Xorazmiy nomidagi Toshkent axborot texnologiyalari universiteti Urganch filiali</span> talabalarining sertifikatlari haqida ma`lumot olishingiz mumkin
+{% endblock jumbotron_description %}
+
+{% block nav_home %}
+active
+{% endblock nav_home %}
+
+
+{% block content %}
+
+<!-- Certificate Type Selector -->
+<div class="container mt-4 lead">
+    <form id="certificateForm" method="GET">
+        <div class="form-group">
+            <label>Sertifikat turini tanlang:</label><br>
+            <label class="btn btn-primary certificateLabel">
+                Barchasi {{ all_certificates_count }}
+                <input type="checkbox" class="certificateCheckbox d-none" id="selectAllCheckbox" autocomplete="off">
+            </label>
+            {% for type in certificate_types %}
+                <label class="btn btn-primary certificateLabel">
+                    {{ type }}
+                    <input type="checkbox" class="certificateCheckbox d-none" name="certificate_type" value="{{ type.id }}" autocomplete="off">
+                </label>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll('.certificateCheckbox');
+
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // Add or remove the 'active' class from the parent label when the checkbox is checked or unchecked
+                if (checkbox.checked) {
+                    checkbox.parentElement.classList.add('active');
+                } else {
+                    checkbox.parentElement.classList.remove('active');
+                }
+                // Automatically submit the form when a checkbox is checked or unchecked
+                document.getElementById('certificateForm').submit();
+            });
+        });
+    });
+</script>
+
+<!-- Card Section -->
+<div class="container">
+    <div class="row">
+        {% for certificate in certificates %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ certificate.image.url }}" class="card-img-top" alt="{{ certificate.fullname }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ certificate.fullname }} <a href="#" class="badge badge-primary">{{ certificate.certificate_type.name }}</a></h5>
+                        <p class="card-text">{{ certificate.description }}</p>
+                        <a href="{{ certificate.file.url }}" class="btn btn-primary" download>Download</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+        <ul class="pagination">
+            {% if certificates.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">Birinchi</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ certificates.previous_page_number }}">Oldingi</a></li>
+            {% endif %}
+
+            {% for i in certificates.paginator.page_range %}
+                <li class="page-item{% if i == certificates.number %} active{% endif %}">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+
+            {% if certificates.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ certificates.next_page_number }}">Keyingi</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ certificates.paginator.num_pages }}">Oxirgi</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock content %}
