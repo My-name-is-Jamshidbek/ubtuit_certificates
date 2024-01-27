@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block jumbotron_title %}
+{{ certificate.fullname }}
+{% endblock jumbotron_title %}
+
+{% block jumbotron_description %}
+{{ certificate.description }}
+{% endblock jumbotron_description %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">{{ certificate.fullname }}</h2>
+                        <hr>
+                        <div class="text-center">
+                            <img src="{{ certificate.image.url }}" class="img-fluid" alt="Certificate Image">
+                        </div>
+                        <hr>
+                        <p class="card-text">{{ certificate.description }}</p>
+                        <h4 class="card-title text-center">"{{ certificate.certificate_type.name }}"</h4>
+                        <h5 class="card-title text-center">
+                            <a href="{{ certificate.file.url }}" class="btn btn-primary" download>Sertifikatni yuklash</a>
+                        </h5>
+                        <p class="card-text text-center">{{ certificate.created_at }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

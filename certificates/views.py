@@ -17,7 +17,7 @@ def home_view(request):
     certificate_types = CertificateType.objects.all()
 
     # Number of certificates to display per page
-    per_page = 5  # Adjust this number based on your preference
+    per_page = 3  # Adjust this number based on your preference
 
     # Create a Paginator instance
     paginator = Paginator(certificates, per_page)
@@ -51,3 +51,7 @@ def about_view(request):
     }
 
     return render(request, 'about.html', context=context)
+
+def certificate_view(request, certificate_id):
+    certificate = Certificate.objects.get(id=certificate_id)
+    return render(request, 'certificate.html', {'certificate': certificate})

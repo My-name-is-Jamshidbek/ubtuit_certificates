@@ -34,7 +34,44 @@ active
     </form>
 </div>
 
+<!-- Card Section -->
+<div class="container">
+    <div class="row">
+        {% for certificate in certificates %}
+            <a href="{% url 'certificate' certificate.pk %}">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ certificate.image.url }}" class="card-img-top" alt="{{ certificate.fullname }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ certificate.fullname|truncatechars:24 }} <a href="#" class="badge badge-primary">{{ certificate.certificate_type.name }}</a></h5>
+                            <p class="card-text">{{ certificate.description|truncatechars:42 }}</p>
+                            <a href="{{ certificate.file.url }}" class="btn btn-primary" download>Download</a>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item"><a id="previousPageLink" class="page-link {% if not certificates.has_previous %}disabled{% endif %}" href="{% if certificates.has_previous %}?page={{ certificates.previous_page_number }}{% endif %}">Oldingi</a></li>
+            {% for i in certificates.paginator.page_range %}
+                <li class="page-item{% if i == certificates.number %} active{% endif %}">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item"><a class="page-link {% if not certificates.has_next %}disabled{% endif %}" href="{% if certificates.has_next %}?page={{ certificates.next_page_number }}{% endif %}">Keyingi</a></li>
+        </ul>
+    </nav>
+</div>
+{% endblock content %}
+
 <script>
+    // JavaScript to prevent default behavior of the disabled link
+    document.getElementById("previousPageLink").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent the default behavior of the link
+    });
     document.addEventListener("DOMContentLoaded", function() {
         const checkboxes = document.querySelectorAll('.certificateCheckbox');
 
@@ -52,42 +89,3 @@ active
         });
     });
 </script>
-
-<!-- Card Section -->
-<div class="container">
-    <div class="row">
-        {% for certificate in certificates %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{ certificate.image.url }}" class="card-img-top" alt="{{ certificate.fullname }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ certificate.fullname }} <a href="#" class="badge badge-primary">{{ certificate.certificate_type.name }}</a></h5>
-                        <p class="card-text">{{ certificate.description }}</p>
-                        <a href="{{ certificate.file.url }}" class="btn btn-primary" download>Download</a>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-
-    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
-        <ul class="pagination">
-            {% if certificates.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page=1">Birinchi</a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ certificates.previous_page_number }}">Oldingi</a></li>
-            {% endif %}
-
-            {% for i in certificates.paginator.page_range %}
-                <li class="page-item{% if i == certificates.number %} active{% endif %}">
-                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                </li>
-            {% endfor %}
-
-            {% if certificates.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ certificates.next_page_number }}">Keyingi</a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ certificates.paginator.num_pages }}">Oxirgi</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-</div>
-{% endblock content %}
