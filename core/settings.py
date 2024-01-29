@@ -125,8 +125,8 @@ STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
 STATIC_ROOT = str(BASE_DIR.joinpath("staticfiles"))
 STATICFILES_STORAGE='whitenoise.storage.CompressedStaticFilesStorage'
 
-MEDIA_ROOT = "/home/uzmabil/public_html/"
-MEDIA_URL = "https://media.uzmabil.uz/"
+MEDIA_ROOT = "/home/ubtuuz/domains/certificates.ubtuit.uz/public_html/"
+MEDIA_URL = "https://certificates.ubtuit.uz/"
 
 
 # Default primary key field type
