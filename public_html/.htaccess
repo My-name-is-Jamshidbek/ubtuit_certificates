@@ -1,0 +1,10 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/ubtuuz/domains/certificates.ubtuit.uz"
+PassengerBaseURI "/"
+PassengerPython "/home/ubtuuz/virtualenv/domains/certificates.ubtuit.uz/3.9/bin/python"
+PassengerAppLogFile "/home/ubtuuz/applog/passenger.logs"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END
