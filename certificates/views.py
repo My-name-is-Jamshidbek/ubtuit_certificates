@@ -52,6 +52,7 @@ def about_view(request):
 
     return render(request, 'about.html', context=context)
 
+
 def certificate_view(request, certificate_id):
     certificate = Certificate.objects.get(id=certificate_id)
     return render(request, 'certificate.html', {'certificate': certificate})
